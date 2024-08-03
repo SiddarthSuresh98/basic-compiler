@@ -95,7 +95,7 @@ public class Scanner {
 				if(match('/')){
 					while(peek() != '\n' && !isAtEnd()) advance();
 				} else if(match('*')) {
-					blockComment();
+					blockComment(1);
 				} else {
 					addToken(TokenType.SLASH);
 				}
@@ -224,21 +224,32 @@ public class Scanner {
 		return isAlpha(c) || isDigit(c);
 	}
 	
-	private void blockComment() {
-		while(peek() != '*' && peekNext() != '/' && !isAtEnd()) {
+	//checks for block comments, allows for nesting
+	private void blockComment(int nestingLevel) {
+		int currentStart = current;
+		while(!isAtEnd()) {
+			if(peek() == '*') {
+				if(peekNext() == '/') {
+					break;
+				}
+			}
+			if(match('/')) {
+				if(match('*')) {
+					blockComment(nestingLevel+1);
+				}
+			}
 			if(peek() == '\n') line++;
 			advance();
 		}
 		if(isAtEnd()) {
-			Lox.error(line, "Unterminated Block Comment.");
+			Lox.error(line, "Unterminated Block Comment. The block comment is: \" " + sourceCode.substring(currentStart, current-2) + "\"");
 			return;
 		}
 		advance();
 		advance();
-		String value = sourceCode.substring(start+2, current-2);
-		System.out.println("Block Comment: " + value);
-		return;
-		
+		//String value = sourceCode.substring(currentStart, current-2);
+		//System.out.println("Block Comment at nested level: " + nestingLevel + " :" + value);
+		return;		
 	}
 	
 }
