@@ -94,6 +94,8 @@ public class Scanner {
 				//check if it is a comment, not added as a token
 				if(match('/')){
 					while(peek() != '\n' && !isAtEnd()) advance();
+				} else if(match('*')) {
+					blockComment();
 				} else {
 					addToken(TokenType.SLASH);
 				}
@@ -222,8 +224,21 @@ public class Scanner {
 		return isAlpha(c) || isDigit(c);
 	}
 	
-	
-	
-
+	private void blockComment() {
+		while(peek() != '*' && peekNext() != '/' && !isAtEnd()) {
+			if(peek() == '\n') line++;
+			advance();
+		}
+		if(isAtEnd()) {
+			Lox.error(line, "Unterminated Block Comment.");
+			return;
+		}
+		advance();
+		advance();
+		String value = sourceCode.substring(start+2, current-2);
+		System.out.println("Block Comment: " + value);
+		return;
+		
+	}
 	
 }
