@@ -1,1 +1,1 @@
-# Compiler written for a custom bare bones programming language in Java
+# Compiler written for programming language in Java
