@@ -2,11 +2,13 @@
 
 ## Phases
 
-1. Scanning
-2. Parsing
-3. Static Analysis
-4. Intermediate Representations
-5. Optimization
-6. Code Generation
-7. Virtual Machine
-8. Runtime
+| Phase                           | Java | C   |
+|---------------------------------|------|-----|
+| Scanning                        | ✅   |     |
+| Parsing                         |      |      |
+| Static Analysis                 |      |      |
+| Intermediate Representations    |      |      |
+| Optimization                    |      |      |
+| Code Generation                 |      |      |
+| Virtual Machine                 |      |      |
+| Runtime                         |      |       |
